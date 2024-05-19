@@ -161,12 +161,11 @@
         }
 
         function saveGrades() {
-            var studentNameInput = document.getElementById("newStudentName");
             var studentNameSelect = document.getElementById("studentNameSelect");
-            var studentName = studentNameSelect.value || studentNameInput.value;
+            var studentName = studentNameSelect.value;
 
             if (!studentName) {
-                alert("Please enter or select a student name.");
+                alert("Please select a student.");
                 return;
             }
 
@@ -189,9 +188,6 @@
             }
 
             localStorage.setItem(studentName, JSON.stringify(gradesData));
-            updateStudentList();
-            studentNameSelect.value = studentName;
-            studentNameInput.value = "";
         }
 
         function loadGrades() {
@@ -230,7 +226,7 @@
                 element1.name = "subject" + (index + 1);
                 element1.value = gradeData.subject;
                 element1.oninput = calculateGWA;
-                cell1.appendChild(element1                );
+                cell1.appendChild(element1);
 
                 var cell2 = row.insertCell(2);
                 var element2 = document.createElement("input");
@@ -330,23 +326,48 @@
             }
         }
 
+        function addNewStudent() {
+            var newStudentNameInput = document.getElementById("newStudentName");
+            var newStudentName = newStudentNameInput.value.trim();
+
+            if (newStudentName === "") {
+                alert("Please enter a valid student name.");
+                return;
+            }
+
+            // Check if the student name already exists
+            var studentNameSelect = document.getElementById("studentNameSelect");
+            for (var i = 0; i < studentNameSelect.options.length; i++) {
+                if (studentNameSelect.options[i].value === newStudentName) {
+                    alert("Student name already exists.");
+                    return;
+                }
+            }
+
+            // Add the new student to the dropdown
+            var newOption = document.createElement("option");
+            newOption.value = newStudentName;
+            newOption.textContent = newStudentName;
+            studentNameSelect.appendChild(newOption);
+
+            // Select the newly added student
+            studentNameSelect.value = newStudentName;
+
+            // Clear the new student name input
+            newStudentNameInput.value = "";
+
+            // Clear the grades table
+            clearTable();
+
+            // Save the empty grades for the new student
+            saveGrades();
+        }
+
         window.onload = function() {
             updateStudentList();
             document.getElementById("studentNameSelect").onchange = handleStudentNameChange;
-            document.getElementById("newStudentName").onchange = function() {
-                var newStudentName = document.getElementById("newStudentName").value;
-                if (newStudentName) {
-                    var studentNameSelect = document.getElementById("studentNameSelect");
-                    var option = document.createElement("option");
-                    option.value = newStudentName;
-                    option.text = newStudentName;
-                    studentNameSelect.add(option);
-                    studentNameSelect.value = newStudentName;
-                    saveGrades();
-                    loadGrades();
-                }
-            };
             document.getElementById("deleteStudentBtn").onclick = deleteStudent;
+            document.getElementById("addStudentBtn").onclick = addNewStudent;
             updateEmptyMessage();
             loadGrades();
         };
@@ -359,6 +380,7 @@
     <form>
         <label for="newStudentName">New Student Name:</label>
         <input type="text" id="newStudentName" placeholder="Enter new student name">
+        <button type="button" id="addStudentBtn" class="btn btn-light">Add Student</button>
         <br><br>
         <label for="studentNameSelect">Select Student:</label>
         <select id="studentNameSelect">
@@ -381,4 +403,3 @@
     <p id="result"></p>
 </body>
 </html>
-
