@@ -129,6 +129,7 @@
             element1.name = "subject" + rowCount;
             element1.placeholder = "Enter subject";
             element1.addEventListener('blur', saveGrades); // Add event listener for autosave
+            element1.addEventListener('keydown', handleEnterKey); // Add event listener for Enter key
             cell1.appendChild(element1);
 
             var cell2 = row.insertCell(2);
@@ -138,6 +139,7 @@
             element2.name = "grade" + rowCount;
             element2.placeholder = "Enter grade";
             element2.addEventListener('blur', saveGrades); // Add event listener for autosave
+            element2.addEventListener('keydown', handleEnterKey); // Add event listener for Enter key
             cell2.appendChild(element2);
 
             var cell3 = row.insertCell(3);
@@ -147,9 +149,26 @@
             element3.name = "unit" + rowCount;
             element3.placeholder = "Enter unit";
             element3.addEventListener('blur', saveGrades); // Add event listener for autosave
+            element3.addEventListener('keydown', handleEnterKey); // Add event listener for Enter key
             cell3.appendChild(element3);
 
             updateEmptyMessage();
+        }
+
+        function handleEnterKey(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                var inputs = document.querySelectorAll('input[type="text"], input[type="number"]');
+                var index = Array.prototype.indexOf.call(inputs, event.target);
+                if (index >= 0 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                } else if (index === inputs.length - 1) {
+                    addSubjectRow();
+                    inputs = document.querySelectorAll('input[type="text"], input[type="number"]');
+                    inputs[inputs.length - 3].focus(); // Focus on the new subject input
+                }
+            }
+            calculateGWA();
         }
 
         function toggleMode() {
@@ -226,6 +245,7 @@
                 element1.name = "subject" + (index + 1);
                 element1.value = gradeData.subject;
                 element1.oninput = calculateGWA;
+                element1.addEventListener('keydown', handleEnterKey); // Add event listener for Enter key
                 cell1.appendChild(element1);
 
                 var cell2 = row.insertCell(2);
@@ -235,6 +255,7 @@
                 element2.name = "grade" + (index + 1);
                 element2.value = gradeData.grade;
                 element2.oninput = calculateGWA;
+                element2.addEventListener('keydown', handleEnterKey); // Add event listener for Enter key
                 cell2.appendChild(element2);
 
                 var cell3 = row.insertCell(3);
@@ -244,41 +265,34 @@
                 element3.name = "unit" + (index + 1);
                 element3.value = gradeData.unit;
                 element3.oninput = calculateGWA;
+                element3.addEventListener('keydown', handleEnterKey); // Add event listener for Enter key
                 cell3.appendChild(element3);
             });
             calculateGWA();
             updateEmptyMessage();
         }
 
-        function updateStudentList() {
-            var studentNameSelect = document.getElementById("studentNameSelect");
-            var selectedStudent = studentNameSelect.value;
-            studentNameSelect.innerHTML = "";
-
-            var defaultOption = document.createElement("option");
-            defaultOption.value = "";
-            defaultOption.text = "Select a student";
-            studentNameSelect.add(defaultOption);
-
-            for (var i = 0; i < localStorage.length; i++) {
-                var studentName = localStorage.key(i);
-                var option = document.createElement("option");
-                option.value = studentName;
-                option.text = studentName;
-                studentNameSelect.add(option);
-            }
-
-            studentNameSelect.value = selectedStudent;
+        function handleStudentNameChange() {
+            loadGrades();
+            updateEmptyMessage();
         }
 
-        function handleStudentNameChange() {
+        function updateStudentList() {
             var studentNameSelect = document.getElementById("studentNameSelect");
-            var studentName = studentNameSelect.value;
-            if (studentName) {
-                loadGrades();
-            } else {
-                clearTable();
-            }
+            var studentNames = Object.keys(localStorage);
+
+            // Clear existing options
+            studentNameSelect.innerHTML = "";
+
+            // Add new options
+            studentNames.forEach(function(name) {
+                var option = document.createElement("option");
+                option.value = name;
+                option.textContent = name;
+                studentNameSelect.appendChild(option);
+            });
+
+            loadGrades();
         }
 
         function deleteStudent() {
@@ -377,7 +391,7 @@
     <h1>Student Grade System</h1>
     <p>Enter the student name, subjects, grades, and units below:</p>
     <br>
-    <form>
+    <form onsubmit="return false;">
         <label for="newStudentName">New Student Name:</label>
         <input type="text" id="newStudentName" placeholder="Enter new student name">
         <button type="button" id="addStudentBtn" class="btn btn-light">Add Student</button>
