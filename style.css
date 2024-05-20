@@ -1,0 +1,169 @@
+body {
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+h1 {
+    background-color: #343541;
+    color: white;
+    padding: 20px;
+    margin: 0;
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+nav {
+    width: 270px;
+    background-color: #202123;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 20px 0;
+    position: fixed;
+    top: 60px;
+    bottom: 0;
+    z-index: 999;
+    overflow-y: auto;
+}
+nav a {
+    color: white;
+    padding: 15px 20px;
+    text-decoration: none;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+}
+nav a:hover {
+    background-color: #444;
+}
+nav a.active {
+    background-color: #343541;
+}
+.toggle-mode-btn {
+    background-color: #444;
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    margin: 10px;
+    border-radius: 50%;
+}
+.toggle-mode-btn:hover {
+    background-color: #555;
+}
+
+/* Adjusted margin-left to center content */
+.content {
+    margin-left: 35%; /* Center the content */
+    margin-top: 70px; /* Reduced margin top */
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.light-mode {
+    background-color: #f7f7f8;
+    color: black;
+}
+.light-mode h1 {
+    background-color: #e0e0e0;
+    color: black;
+}
+.light-mode nav {
+    background-color: #ffffff;
+    color: black;
+}
+.light-mode nav a {
+    color: black;
+}
+.light-mode nav a.active, .light-mode nav a:hover {
+    background-color: #d0d0d0;
+}
+.dark-mode {
+    background-color: #202123;
+    color: white;
+}
+
+.dark-mode nav {
+    background-color: #151515;
+    color: white;
+}
+
+.btn {
+    padding: 10px 15px;
+    cursor: pointer;
+    margin: 5px;
+    border: none;
+    color: white;
+}
+.btn-light {
+    background-color: #343541;
+}
+.btn-dark {
+    background-color: #555;
+}
+.dark-mode input, .dark-mode select, .light-mode input, .light-mode select {
+    background-color: #444;
+    color: white;
+    border: 1px solid #777;
+}
+.light-mode input, .light-mode select {
+    background-color: #f0f0f0;
+    color: black;
+}
+.empty-message {
+    color: #777;
+    font-style: italic;
+}
+section {
+    min-height: 100vh; /* Each section takes at least the height of the viewport */
+    padding-top: 60px; /* To create a gap between sections */
+}
+table {
+    width: fit-content; /* Adjusted width */
+    margin-left: 20px; /* Adjusted margin for chat-like appearance */
+    border-collapse: collapse;
+}
+table, th, td {
+    border: 1px solid black;
+}
+th, td {
+    padding: 8px;
+    text-align: center;
+}
+table#gradesTable input[type="text"],
+table#gradesTable input[type="number"] {
+    width: 90%;
+    text-align: center;
+}
+
+/* Adjust the width of the grade and unit cells */
+#gradesTable td:nth-child(1),
+#gradesTable td:nth-child(3),
+#gradesTable td:nth-child(4) {
+    width: 60px; /* Smaller width */
+}
+
+#gradesTable td:nth-child(2) {
+    width: 350px; 
+}
+
+/* For dark mode */
+.dark-mode table {
+    background-color: #333;
+    color: white;
+    outline: 2px solid #777; /* Adjust outline color for dark mode */
+}
+
+/* For light mode */
+.light-mode table {
+    background-color: white;
+    color: black;
+    outline: 2px solid #ccc; /* Adjust outline color for light mode */
+}
