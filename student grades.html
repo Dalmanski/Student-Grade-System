@@ -40,6 +40,7 @@
                 <select id="studentNameSelect" onchange="handleStudentNameChange()">
                     <!-- Options will be dynamically added here -->
                 </select>
+                <input type="button" value="Delete Student" class="btn btn-light" id="deleteStudentBtn" onclick="deleteStudent()">
                 <br><br>
                 <table id="gradesTable">
                     <tr>
@@ -50,8 +51,6 @@
                     </tr>
                 </table>
                 <br>
-                <input type="button" value="Add Subject" class="btn btn-light" onclick="addSubjectRow()">
-                <input type="button" value="Delete Student" class="btn btn-light" id="deleteStudentBtn" onclick="deleteStudent()">
                 <p id="result"></p>
             </form>
         </section>

@@ -89,7 +89,7 @@ function insertRowContent(row, index) {
     var addButton = document.createElement("button");
     addButton.innerHTML = "+";
     addButton.onclick = function() {
-        addSubjectRowAtIndex(row.rowIndex);
+        addSubjectRowAtIndex(row.rowIndex + 1);  // Change here to add after the current row
     };
     cell0.appendChild(addButton);
 
@@ -107,7 +107,6 @@ function insertRowContent(row, index) {
 
     updateEmptyMessage();
 }
-
 
 function handleEnterKey(event) {
     if (event.key === "Enter") {
@@ -206,7 +205,7 @@ function loadGrades() {
         var addButton = document.createElement("button");
         addButton.innerHTML = "+";
         addButton.onclick = function() {
-            addSubjectRowAtIndex(row.rowIndex);
+            addSubjectRowAtIndex(row.rowIndex + 1);  // Change here to add after the current row
         };
         cell0.appendChild(addButton);
 
