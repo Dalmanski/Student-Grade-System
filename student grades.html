@@ -11,12 +11,16 @@
         <a href="#" data-section="home" class="active">Home</a>
         <a href="#" data-section="fill-up-student">Fill Up Student</a>
         <a href="#" data-section="student-grades">Student Grades</a>
+        <a href="#" data-section="student-profile">Student Profile</a>
         <button class="toggle-mode-btn" onclick="toggleMode()">🌙</button>
     </nav>
     <div class="content">
         <section id="home" class="active">
-            <h2>Welcome to the Student Grade System</h2>
-            <p>This system allows you to manage student information and calculate their General Weighted Average (GWA).</p>
+            <h2 style="font-size: 90px;">Welcome to the <br>
+                                        Student Grade <br>
+                                        System</h2>
+            <p style="font-size: 20px; line-height: 2.0;">This system allows you to manage student information <br>
+                                                            and calculate their General Weighted Average (GWA).</p>
         </section>
         <section id="fill-up-student">
             <h2>Fill Up Student Information</h2>
@@ -30,6 +34,9 @@
                 <label for="studentAge">Age:</label>
                 <input type="number" id="studentAge" placeholder="Enter student age">
                 <br><br>
+                <label for="profile-picture-upload">Profile Picture:</label>
+                <input type="file" id="profile-picture-upload" accept="image/*" onchange="handleProfilePictureUpload()">
+
                 <button type="button" class="btn btn-light" onclick="addNewStudent()">Add Student</button>
             </form>
         </section>
@@ -54,6 +61,18 @@
                 <p id="result"></p>
             </form>
         </section>
+        <section id="student-profile">
+            <h2>Student Profile</h2>
+            <div id="profile-picture-container">
+                <img id="profile-picture" src="" alt="Profile Picture">
+            </div>
+            <div id="student-details">
+                <p><strong>Name:</strong> <span id="student-name"></span></p>
+                <p><strong>Age:</strong> <span id="student-age"></span></p>
+                <p><strong>Address:</strong> <span id="student-address"></span></p>
+            </div>
+        </section>
+        
     </div>
 </body>
 </html>

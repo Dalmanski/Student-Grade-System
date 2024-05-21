@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
     updateStudentList();
 });
 
+
 function toggleMode() {
     var element = document.body;
     element.classList.toggle("light-mode");
@@ -82,6 +83,7 @@ function insertRowContent(row, index) {
             table.deleteRow(row.rowIndex);
             calculateGWA();
             saveGrades();
+            loadGrades();
         }
     };
     cell0.appendChild(removeButton);
@@ -245,6 +247,9 @@ function loadGrades() {
 function handleStudentNameChange() {
     loadGrades();
     updateEmptyMessage();
+
+    // Load student profile
+    loadStudentProfile(); // Added this line to update the student profile
 }
 
 function updateStudentList() {
@@ -345,7 +350,66 @@ function addNewStudent() {
 
     // Save the empty grades for the new student
     saveGrades();
+
+    // Load student profile
+    loadStudentProfile(); // Added this line to update the student profile
 }
+
+
+function loadStudentProfile() {
+    var studentNameSelect = document.getElementById("studentNameSelect");
+    var studentName = studentNameSelect.value;
+    if (!studentName) {
+        return;
+    }
+
+    var studentProfile = JSON.parse(localStorage.getItem(studentName + "_profile"));
+    if (!studentProfile) {
+        return;
+    }
+
+    var profilePicture = document.getElementById("profile-picture");
+    profilePicture.src = studentProfile.picture;
+
+    var studentNameElement = document.getElementById("student-name");
+    studentNameElement.textContent = studentProfile.name;
+
+    var studentAgeElement = document.getElementById("student-age");
+    studentAgeElement.textContent = studentProfile.age;
+
+    var studentAddressElement = document.getElementById("student-address");
+    studentAddressElement.textContent = studentProfile.address;
+}
+
+function handleProfilePictureUpload() {
+    var fileInput = document.getElementById("profile-picture-upload");
+    var file = fileInput.files[0];
+
+    var reader = new FileReader();
+    reader.onload = function(event) {
+        var profilePicture = event.target.result;
+        var studentName = document.getElementById("newStudentName").value.trim();
+
+        if (profilePicture && studentName) {
+            var studentProfile = {
+                picture: profilePicture,
+                name: studentName,
+                age: document.getElementById("studentAge").value,
+                address: document.getElementById("studentAddress").value
+            };
+
+            localStorage.setItem(studentName + "_profile", JSON.stringify(studentProfile));
+            loadStudentProfile(); // Reload student profile to display the updated picture
+        }
+    };
+
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+}
+
+// Add event listener for profile picture upload
+document.getElementById("profile-picture-upload").addEventListener("change", handleProfilePictureUpload);
 
 window.onload = function() {
     updateStudentList();
@@ -354,4 +418,5 @@ window.onload = function() {
     document.getElementById("addStudentBtn").onclick = addNewStudent;
     updateEmptyMessage();
     loadGrades();
+    loadStudentProfile(); // Load student profile on page load
 };

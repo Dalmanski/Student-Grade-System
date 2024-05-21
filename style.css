@@ -60,7 +60,7 @@ nav a.active {
 
 /* Adjusted margin-left to center content */
 .content {
-    margin-left: 35%; /* Center the content */
+    margin-left: 30%; /* Center the content */
     margin-top: 70px; /* Reduced margin top */
     padding: 20px;
     overflow-y: auto;
