@@ -1,1 +1,1 @@
-demo [here](https://github.com/Dalmanski/Student-Grade-System/main/student%grades.html)
+demo [here](https://raw.githack.com/Dalmanski/Student-Grade-System/main/student%grades.html)
