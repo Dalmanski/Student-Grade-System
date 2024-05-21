@@ -6,7 +6,15 @@
     <script src="script.js"></script>
 </head>
 <body class="dark-mode">
-    <h1>Student Grade System</h1>
+    <header>
+        <a href="#" class="logo">Dal.com</a>
+        <div class="navbar">
+            <a href="#Home">Home</a>
+            <a href="#About">About</a>
+            <a href="https://soundcloud.com/xxdalmanskixx-gd">Visit Me</a>
+            <a href="#Credits">Credits</a>     
+        </div>
+    </header>
     <nav>
         <a href="#" data-section="home" class="active">Home</a>
         <a href="#" data-section="fill-up-student">Fill Up Student</a>
@@ -23,56 +31,67 @@
                                                             and calculate their General Weighted Average (GWA).</p>
         </section>
         <section id="fill-up-student">
-            <h2>Fill Up Student Information</h2>
-            <form id="studentForm" onsubmit="return false;">
-                <label for="studentName">Student Name:</label>
-                <input type="text" id="newStudentName" placeholder="Enter student name"> <!-- Added ID here -->
-                <br><br>
-                <label for="studentAddress">Address:</label>
-                <input type="text" id="studentAddress" placeholder="Enter student address">
-                <br><br>
-                <label for="studentAge">Age:</label>
-                <input type="number" id="studentAge" placeholder="Enter student age">
-                <br><br>
-                <label for="profile-picture-upload">Profile Picture:</label>
-                <input type="file" id="profile-picture-upload" accept="image/*" onchange="handleProfilePictureUpload()">
-
-                <button type="button" class="btn btn-light" onclick="addNewStudent()">Add Student</button>
-            </form>
+            <div class="box">
+                <h2>Fill Up Student Information</h2>
+                <form id="studentForm" onsubmit="return false;">
+                    <label for="studentName">Student Name:</label>
+                    <br>
+                    <input type="text" id="newStudentName" placeholder="Enter student name"> <!-- Added ID here -->
+                    <br><br>
+                    <label for="studentAddress">Address:</label>
+                    <br>
+                    <input type="text" id="studentAddress" placeholder="Enter student address">
+                    <br><br>
+                    <label for="studentAge">Age:</label>
+                    <br>
+                    <input type="number" id="studentAge" placeholder="Enter student age">
+                    <br><br>
+                    <label for="profile-picture-upload">Profile Picture:<br></label>
+                    <input type="file" id="profile-picture-upload" accept="image/*" onchange="handleProfilePictureUpload()">
+                    <br><br>
+                    <button type="button" class="btn btn-light" onclick="addNewStudent()">Add Student</button>
+                </form>
+            </div>
         </section>
         <section id="student-grades">
-            <h2>Student Grades</h2>
-            <form onsubmit="return false;">
-                <label for="studentNameSelect">Select Student:</label>
-                <select id="studentNameSelect" onchange="handleStudentNameChange()">
-                    <!-- Options will be dynamically added here -->
-                </select>
-                <input type="button" value="Delete Student" class="btn btn-light" id="deleteStudentBtn" onclick="deleteStudent()">
-                <br><br>
-                <table id="gradesTable">
-                    <tr>
-                        <th>Action</th>
-                        <th>Subject</th>
-                        <th>Grade</th>
-                        <th>Unit</th>
-                    </tr>
-                </table>
-                <input type="button" value="Add Subject" class="btn btn-light" id="addSubjectBtn" onclick="addSubjectRow()">
-                <br>
-                <p id="result"></p>
-            </form>
+            <div class="box">
+                <h2>Student Grades</h2>
+                <form onsubmit="return false;">
+                    <label for="studentNameSelect">Select Student:</label>
+                    <select id="studentNameSelect" onchange="handleStudentNameChange()">
+                        <!-- Options will be dynamically added here -->
+                    </select>
+                    <input type="button" value="Delete Student" class="btn btn-light" id="deleteStudentBtn" onclick="deleteStudent()">
+                    <br><br>
+                    <table id="gradesTable">
+                        <tr>
+                            <th>Action</th>
+                            <th>Subject</th>
+                            <th>Grade</th>
+                            <th>Unit</th>
+                        </tr>
+                    </table>
+                    <input type="button" value="Add Subject" class="btn btn-light" id="addSubjectBtn" onclick="addSubjectRow()">
+                    <br>
+                    <p id="result"></p>
+                </form>
+            </div>
         </section>
         <section id="student-profile">
-            <h2>Student Profile</h2>
-            <div id="profile-picture-container">
-                <img id="profile-picture" src="" alt="Profile Picture">
-            </div>
-            <div id="student-details">
-                <p><strong>Name:</strong> <span id="student-name"></span></p>
-                <p><strong>Age:</strong> <span id="student-age"></span></p>
-                <p><strong>Address:</strong> <span id="student-address"></span></p>
+            <div class="box">
+                <h2>Student Profile</h2>
+                <div id="profile-picture-container">
+                    <img id="profile-picture" src="" alt="Profile Picture">
+                    <canvas id="resize-canvas" style="display: none;"></canvas>
+                </div>
+                <div id="student-details">
+                    <p><strong>Name:</strong> <span id="student-name"></span></p>
+                    <p><strong>Age:</strong> <span id="student-age"></span></p>
+                    <p><strong>Address:</strong> <span id="student-address"></span></p>
+                </div>
             </div>
         </section>
+        
         
     </div>
 </body>

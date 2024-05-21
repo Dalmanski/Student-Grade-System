@@ -6,18 +6,78 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    background-image: url('Bg pic.avif');
 }
-h1 {
-    background-color: #343541;
-    color: white;
-    padding: 20px;
-    margin: 0;
-    text-align: center;
+
+header {
+    background-color: #000000a1;
+    color: #fff;
+    height: 20px;
+    padding: 20px 20px 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.5s ease, transform 0.5s ease;
+    animation: slideDown 0.5s ease forwards;
+}
+
+header:hover {
+    background-color: #000000e6; /* Change background color on hover */
+}
+
+.logo {
+    font-size: 32px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    margin-left: 20px; /* Adjusted for smaller screens */
+}
+
+.navbar {
+    display: flex;
+    margin-right: 20px; /* Adjusted for smaller screens */
+}
+
+.navbar a {
+    font-size: 20px; /* Adjusted for smaller screens */
+    color: #fff;
+    font-weight: 100;
+    text-decoration: none;
+    margin-left: 20px; /* Adjusted for smaller screens */
+    position: relative;
+}
+
+.navbar a::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #fff;
+    transition: .3s;
+}       
+
+.navbar a:hover::before {
     width: 100%;
-    position: fixed;
-    top: 0;
-    z-index: 1000;
 }
+
+/* Adjusted styles for the nav inside the header */
+header nav {
+    display: flex;
+    align-items: center;
+}
+
+header nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px; /* Adjusted for spacing */
+}
+
+header nav a:hover {
+    text-decoration: underline;
+}
+
 nav {
     width: 270px;
     background-color: #202123;
@@ -61,7 +121,7 @@ nav a.active {
 /* Adjusted margin-left to center content */
 .content {
     margin-left: 30%; /* Center the content */
-    margin-top: 70px; /* Reduced margin top */
+    margin-top: 20px; /* Reduced margin top */
     padding: 20px;
     overflow-y: auto;
     flex: 1;
@@ -86,12 +146,12 @@ nav a.active {
     background-color: #d0d0d0;
 }
 .dark-mode {
-    background-color: #202123;
+    background-color: #20212385;
     color: white;
 }
 
 .dark-mode nav {
-    background-color: #151515;
+    background-color: #15151581;
     color: white;
 }
 
@@ -123,11 +183,11 @@ nav a.active {
 }
 section {
     min-height: 100vh; /* Each section takes at least the height of the viewport */
-    padding-top: 60px; /* To create a gap between sections */
+    padding-top: 0px; /* To create a gap between sections */
 }
 table {
     width: fit-content; /* Adjusted width */
-    margin-left: 20px; /* Adjusted margin for chat-like appearance */
+    margin-left: 10%; /* Adjusted margin for chat-like appearance */
     border-collapse: collapse;
 }
 table, th, td {
@@ -166,4 +226,39 @@ table#gradesTable input[type="number"] {
     background-color: white;
     color: black;
     outline: 2px solid #ccc; /* Adjust outline color for light mode */
+}
+
+/* New box styles */
+.box {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    width: 80%;
+    text-align: center;
+    box-shadow: 10px 10px 5px 2px rgba(0, 0, 0, 0.5); /* 10px to the right, 10px down, 5px blur, 2px spread, semi-transparent black */
+}
+.dark-mode .box {
+    background-color: #3333337c;
+    border-color: #444;
+    color: white;
+}
+
+#profile-picture-container {
+    width: 192px; /* 2 inches * 96 DPI */
+    height: 192px; /* 2 inches * 96 DPI */
+    overflow: hidden; /* Ensures any overflow content is hidden */
+    display: flex; /* Center the image within the container */
+    justify-content: center;
+    align-items: center;
+    margin-left: 38%;
+}
+
+#profile-picture {
+    max-width: 100%; /* Ensure the picture fits within the container */
+    max-height: 100%;
+    width: auto; /* Let the width adjust automatically based on the container size */
+    height: auto; /* Let the height adjust automatically based on the container size */
 }
