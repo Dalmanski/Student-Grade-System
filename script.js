@@ -32,10 +32,11 @@ document.addEventListener("DOMContentLoaded", function() {
             alert("Local storage cleared successfully!");
             loadAllStudentProfiles();
             updateStudentList();
+            clearTable();
         }
     });
 
-
+    
     // Function to display contents of localStorage
     function displayLocalStorageContents() {
         console.log("Contents of localStorage:");
@@ -542,8 +543,6 @@ document.getElementById("clearLocalStorageBtn").addEventListener("click", functi
 
     // Optionally, you can also update the UI or perform other actions after clearing localStorage
 });
-
-
 
 function displayLocalStorageContents() {
     var localStorageContentDiv = document.getElementById("localStorageContent");
