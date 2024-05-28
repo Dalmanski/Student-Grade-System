@@ -1,5 +1,7 @@
+// This is how it load or start
 document.addEventListener("DOMContentLoaded", function() {
-    // Initialize sections and buttons
+    
+    // Animation of nav
     var sections = document.querySelectorAll("section");
     var links = document.querySelectorAll("nav a");
 
@@ -21,11 +23,152 @@ document.addEventListener("DOMContentLoaded", function() {
     // Show the home section by default
     showSection("home");
 
-    // Update the student list when the page loads
+    loadAllStudentProfiles();
     updateStudentList();
+
+    document.getElementById("clearLocalStorageBtn").addEventListener("click", function() {
+        if (confirm("Are you sure you want to delete all data stored in localStorage?")) {
+            localStorage.clear();
+            alert("Local storage cleared successfully!");
+            loadAllStudentProfiles();
+            updateStudentList();
+        }
+    });
+
+
+    // Function to display contents of localStorage
+    function displayLocalStorageContents() {
+        console.log("Contents of localStorage:");
+        var localStorageContents = document.getElementById("localStorageContents");
+        localStorageContents.innerHTML = ''; // Clear previous contents
+
+        for (var i = 0; i < localStorage.length; i++) {
+            var key = localStorage.key(i);
+            var value = localStorage.getItem(key);
+            console.log(key + ": " + value);
+
+            var content = document.createElement('div');
+            content.textContent = key + ": " + value;
+            localStorageContents.appendChild(content);
+        }
+    }
+
+
+    // Get references to the button and the container
+    var showDataButton = document.getElementById("showData");
+    var localStorageData = document.getElementById("localStorageData");
+
+    // Add event listener to the button
+    showDataButton.addEventListener("click", function() {
+        if (localStorageData.style.display === "none") {
+            localStorageData.style.display = "block";
+            displayLocalStorageContents(); // Update the display when showing the data
+        } else {
+            localStorageData.style.display = "none";
+        }
+    });
+
 });
 
+function addNewStudent() {
+    var newStudentNameInput = document.getElementById("newStudentName");
+    var newStudentName = newStudentNameInput.value.trim();
 
+    if (newStudentName === "") {
+        alert("Please enter a valid student name.");
+        return;
+    }
+
+    // Check if the student name already exists
+    var studentNameSelect = document.getElementById("studentNameSelect");
+    for (var i = 0; i < studentNameSelect.options.length; i++) {
+        if (studentNameSelect.options[i].value === newStudentName) {
+            alert("Student name already exists.");
+            return;
+        }
+    }
+
+    // Add the new student to the dropdown
+    var newOption = document.createElement("option");
+    newOption.value = newStudentName;
+    newOption.textContent = newStudentName;
+    studentNameSelect.appendChild(newOption);
+
+    // Select the newly added student
+    studentNameSelect.value = newStudentName;
+
+    // Clear the new student name input
+    newStudentNameInput.value = "";
+
+    // Clear the grades table
+    clearTable();
+
+    // Save the empty grades for the new student
+    saveGrades();
+
+    // Load student profile
+    loadStudentProfile();
+
+    loadAllStudentProfiles();
+    updateStudentList();
+}
+
+function loadAllStudentProfiles() {
+    var studentDetailsSection = document.getElementById("student-details");
+
+    // Clear any existing content
+    studentDetailsSection.innerHTML = "";
+
+    // Get all student names from localStorage
+    var studentNames = Object.keys(localStorage).filter(key => !key.endsWith('_profile'));
+
+    studentNames.forEach(function(studentName) {
+        var studentProfile = JSON.parse(localStorage.getItem(studentName + "_profile"));
+
+        if (studentProfile) {
+            // Create a container for each student profile
+            var studentContainer = document.createElement("div");
+            studentContainer.classList.add("student-container");
+
+            // Create and append the profile picture
+            var profilePicture = document.createElement("img");
+            profilePicture.src = studentProfile.picture;
+            profilePicture.alt = "Profile Picture";
+            profilePicture.classList.add("profile-picture");
+            studentContainer.appendChild(profilePicture);
+
+            // Create and append the student name
+            var nameElement = document.createElement("p");
+            nameElement.innerHTML = `<strong>Name:</strong> ${studentProfile.name}`;
+            studentContainer.appendChild(nameElement);
+
+            // Create and append the student age
+            var ageElement = document.createElement("p");
+            ageElement.innerHTML = `<strong>Age:</strong> ${studentProfile.age}`;
+            studentContainer.appendChild(ageElement);
+
+            // Create and append the student address
+            var addressElement = document.createElement("p");
+            addressElement.innerHTML = `<strong>Address:</strong> ${studentProfile.address}`;
+            studentContainer.appendChild(addressElement);
+
+            // Append the student container to the student details section
+            studentDetailsSection.appendChild(studentContainer);
+        }
+        displayLocalStorageContents();
+    });
+
+    // Apply style to arrange students from left to right
+    var boxes = document.querySelectorAll('.box');
+    boxes.forEach(box => {
+        box.style.display = 'flex';
+        box.style.flexWrap = 'wrap';
+        box.style.gap = '20px';
+        box.style.justifyContent = 'flex-start';
+    });
+}
+
+// Change light and dark mode
 function toggleMode() {
     var element = document.body;
     element.classList.toggle("light-mode");
@@ -259,16 +402,23 @@ function updateStudentList() {
     // Clear existing options
     studentNameSelect.innerHTML = "";
 
-    // Add new options
+    // Filter out keys that end with '_profile'
+    var filteredStudentNames = studentNames.filter(function(name) {
+        return !name.endsWith("_profile");
+    });
+
     studentNames.forEach(function(name) {
-        var option = document.createElement("option");
-        option.value = name;
-        option.textContent = name;
-        studentNameSelect.appendChild(option);
+        if (!name.endsWith("_profile")) {
+            var option = document.createElement("option");
+            option.value = name;
+            option.textContent = name;
+            studentNameSelect.appendChild(option);
+        }
     });
 
     loadGrades();
 }
+
 
 function deleteStudent() {
     var studentNameSelect = document.getElementById("studentNameSelect");
@@ -315,45 +465,6 @@ function updateEmptyMessage() {
     }
 }
 
-function addNewStudent() {
-    var newStudentNameInput = document.getElementById("newStudentName");
-    var newStudentName = newStudentNameInput.value.trim();
-
-    if (newStudentName === "") {
-        alert("Please enter a valid student name.");
-        return;
-    }
-
-    // Check if the student name already exists
-    var studentNameSelect = document.getElementById("studentNameSelect");
-    for (var i = 0; i < studentNameSelect.options.length; i++) {
-        if (studentNameSelect.options[i].value === newStudentName) {
-            alert("Student name already exists.");
-            return;
-        }
-    }
-
-    // Add the new student to the dropdown
-    var newOption = document.createElement("option");
-    newOption.value = newStudentName;
-    newOption.textContent = newStudentName;
-    studentNameSelect.appendChild(newOption);
-
-    // Select the newly added student
-    studentNameSelect.value = newStudentName;
-
-    // Clear the new student name input
-    newStudentNameInput.value = "";
-
-    // Clear the grades table
-    clearTable();
-
-    // Save the empty grades for the new student
-    saveGrades();
-
-    // Load student profile
-    loadStudentProfile(); // Added this line to update the student profile
-}
 
 
 function loadStudentProfile() {
@@ -399,7 +510,7 @@ function handleProfilePictureUpload() {
             };
 
             localStorage.setItem(studentName + "_profile", JSON.stringify(studentProfile));
-            loadStudentProfile(); // Reload student profile to display the updated picture
+            loadAllStudentProfiles(); // Update the student details section
         }
     };
 
@@ -420,3 +531,28 @@ window.onload = function() {
     loadGrades();
     loadStudentProfile(); // Load student profile on page load
 };
+
+
+document.getElementById("clearLocalStorageBtn").addEventListener("click", function() {
+    for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i);
+        // Overwrite each key with an empty string or a space
+        localStorage.setItem(key, ' ');
+    }
+
+    // Optionally, you can also update the UI or perform other actions after clearing localStorage
+});
+
+
+
+function displayLocalStorageContents() {
+    var localStorageContentDiv = document.getElementById("localStorageContent");
+    localStorageContentDiv.innerHTML = "<h3>Contents of localStorage:</h3>";
+
+    for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i);
+        var value = localStorage.getItem(key);
+        var content = "<p><strong>Key:</strong> " + key + ", <strong>Value:</strong> " + value + "</p>";
+        localStorageContentDiv.innerHTML += content;
+    }
+}

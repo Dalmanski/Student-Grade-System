@@ -30,12 +30,12 @@ header:hover {
     color: #fff;
     text-decoration: none;
     font-weight: 700;
-    margin-left: 20px; /* Adjusted for smaller screens */
+    margin-left: 20px;
 }
 
 .navbar {
     display: flex;
-    margin-right: 20px; /* Adjusted for smaller screens */
+    margin-right: 20px;
 }
 
 .navbar a {
@@ -187,7 +187,6 @@ section {
 }
 table {
     width: fit-content; /* Adjusted width */
-    margin-left: 10%; /* Adjusted margin for chat-like appearance */
     border-collapse: collapse;
 }
 table, th, td {
@@ -210,6 +209,12 @@ table#gradesTable input[type="number"] {
     width: 60px; /* Smaller width */
 }
 
+.input-large {
+    width: 300px;
+    height: 30px;
+    text-align: center;
+}
+
 #gradesTable td:nth-child(2) {
     width: 350px; 
 }
@@ -228,8 +233,11 @@ table#gradesTable input[type="number"] {
     outline: 2px solid #ccc; /* Adjust outline color for light mode */
 }
 
-/* New box styles */
 .box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -239,26 +247,58 @@ table#gradesTable input[type="number"] {
     width: 80%;
     text-align: center;
     box-shadow: 10px 10px 5px 2px rgba(0, 0, 0, 0.5); /* 10px to the right, 10px down, 5px blur, 2px spread, semi-transparent black */
+    line-height: 1.5;
 }
+
 .dark-mode .box {
     background-color: #3333337c;
     border-color: #444;
     color: white;
 }
 
+.box h2 {
+    margin-bottom: auto; /* Pushes the h2 to the top */
+}
+
 #profile-picture-container {
     width: 192px; /* 2 inches * 96 DPI */
     height: 192px; /* 2 inches * 96 DPI */
-    overflow: hidden; /* Ensures any overflow content is hidden */
+    overflow: hidden;
     display: flex; /* Center the image within the container */
     justify-content: center;
     align-items: center;
-    margin-left: 38%;
+    position: absolute; /* Use absolute positioning for precise placement */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the container */
 }
 
-#profile-picture {
-    max-width: 100%; /* Ensure the picture fits within the container */
-    max-height: 100%;
-    width: auto; /* Let the width adjust automatically based on the container size */
-    height: auto; /* Let the height adjust automatically based on the container size */
+.profile-picture {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the image covers the entire container */
+    border-radius: 50%; /* Make the image circular */
 }
+
+#student-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between profiles */
+}
+
+.student-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 220px; /* Adjust as needed */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 10px 10px 5px 2px rgba(0, 0, 0, 0.5);
+}
+
+.student-container p {
+    margin: 5px 0;
+    text-align: center;
+}
+

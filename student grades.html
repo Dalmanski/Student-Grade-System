@@ -21,6 +21,8 @@
         <a href="#" data-section="student-grades">Student Grades</a>
         <a href="#" data-section="student-profile">Student Profile</a>
         <button class="toggle-mode-btn" onclick="toggleMode()">🌙</button>
+        <button id="clearLocalStorageBtn" class="btn btn-light">Clear Local Storage</button>
+        <button id="showData" class="btn btn-light">Show Data</button>
     </nav>
     <div class="content">
         <section id="home" class="active">
@@ -32,19 +34,19 @@
         </section>
         <section id="fill-up-student">
             <div class="box">
-                <h2>Fill Up Student Information</h2>
+                <h2 style="font-size: 30px;">Fill Up Student Information</h2>
                 <form id="studentForm" onsubmit="return false;">
                     <label for="studentName">Student Name:</label>
                     <br>
-                    <input type="text" id="newStudentName" placeholder="Enter student name"> <!-- Added ID here -->
+                    <input type="text" id="newStudentName" class="input-large" placeholder="Enter student name"> <!-- Added ID here -->
                     <br><br>
                     <label for="studentAddress">Address:</label>
                     <br>
-                    <input type="text" id="studentAddress" placeholder="Enter student address">
+                    <input type="text" id="studentAddress" class="input-large" placeholder="Enter student address">
                     <br><br>
                     <label for="studentAge">Age:</label>
                     <br>
-                    <input type="number" id="studentAge" placeholder="Enter student age">
+                    <input type="number" id="studentAge" class="input-large" placeholder="Enter student age">
                     <br><br>
                     <label for="profile-picture-upload">Profile Picture:<br></label>
                     <input type="file" id="profile-picture-upload" accept="image/*" onchange="handleProfilePictureUpload()">
@@ -55,7 +57,7 @@
         </section>
         <section id="student-grades">
             <div class="box">
-                <h2>Student Grades</h2>
+                <h2 style="font-size: 30px;">Student Grades</h2>
                 <form onsubmit="return false;">
                     <label for="studentNameSelect">Select Student:</label>
                     <select id="studentNameSelect" onchange="handleStudentNameChange()">
@@ -79,9 +81,8 @@
         </section>
         <section id="student-profile">
             <div class="box">
-                <h2>Student Profile</h2>
+                <h2 style="font-size: 30px;">Student Grades</h2>
                 <div id="profile-picture-container">
-                    <img id="profile-picture" src="" alt="Profile Picture">
                     <canvas id="resize-canvas" style="display: none;"></canvas>
                 </div>
                 <div id="student-details">
@@ -90,9 +91,12 @@
                     <p><strong>Address:</strong> <span id="student-address"></span></p>
                 </div>
             </div>
+            <div id="localStorageContent" style="display: none;"></div>
+            <div id="localStorageData" style="display: none;">
+                <h2>LocalStorage Contents</h2>
+                <pre id="localStorageContents"></pre>
+            </div>
         </section>
-        
-        
     </div>
 </body>
 </html>
