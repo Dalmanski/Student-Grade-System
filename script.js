@@ -107,8 +107,7 @@ function addNewStudent() {
     // Save the empty grades for the new student
     saveGrades();
 
-    // Load student profile
-    loadStudentProfile();
+
 
     loadAllStudentProfiles();
     updateStudentList();
@@ -391,9 +390,6 @@ function loadGrades() {
 function handleStudentNameChange() {
     loadGrades();
     updateEmptyMessage();
-
-    // Load student profile
-    loadStudentProfile(); // Added this line to update the student profile
 }
 
 function updateStudentList() {
@@ -468,31 +464,6 @@ function updateEmptyMessage() {
 
 
 
-function loadStudentProfile() {
-    var studentNameSelect = document.getElementById("studentNameSelect");
-    var studentName = studentNameSelect.value;
-    if (!studentName) {
-        return;
-    }
-
-    var studentProfile = JSON.parse(localStorage.getItem(studentName + "_profile"));
-    if (!studentProfile) {
-        return;
-    }
-
-    var profilePicture = document.getElementById("profile-picture");
-    profilePicture.src = studentProfile.picture;
-
-    var studentNameElement = document.getElementById("student-name");
-    studentNameElement.textContent = studentProfile.name;
-
-    var studentAgeElement = document.getElementById("student-age");
-    studentAgeElement.textContent = studentProfile.age;
-
-    var studentAddressElement = document.getElementById("student-address");
-    studentAddressElement.textContent = studentProfile.address;
-}
-
 function handleProfilePictureUpload() {
     var fileInput = document.getElementById("profile-picture-upload");
     var file = fileInput.files[0];
@@ -530,7 +501,6 @@ window.onload = function() {
     document.getElementById("addStudentBtn").onclick = addNewStudent;
     updateEmptyMessage();
     loadGrades();
-    loadStudentProfile(); // Load student profile on page load
 };
 
 
