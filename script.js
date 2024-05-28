@@ -109,6 +109,8 @@ function addNewStudent() {
 
     loadAllStudentProfiles();
     updateStudentList();
+
+    alert("Student " + newStudentName + " is now added");
 }
 
 function loadAllStudentProfiles() {
