@@ -1,6 +1,6 @@
 // This is how it load or start
 document.addEventListener("DOMContentLoaded", function() {
-    
+
     // Animation of nav
     var sections = document.querySelectorAll("section");
     var links = document.querySelectorAll("nav a");
@@ -106,8 +106,6 @@ function addNewStudent() {
 
     // Save the empty grades for the new student
     saveGrades();
-
-
 
     loadAllStudentProfiles();
     updateStudentList();
@@ -427,6 +425,8 @@ function deleteStudent() {
 
     if (confirm("Are you sure you want to delete the student '" + studentName + "'?")) {
         localStorage.removeItem(studentName);
+        localStorage.removeItem(studentName + "_profile");
+        loadAllStudentProfiles();
         updateStudentList();
         clearTable();
     }
@@ -461,7 +461,6 @@ function updateEmptyMessage() {
         }
     }
 }
-
 
 
 function handleProfilePictureUpload() {
