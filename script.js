@@ -123,7 +123,6 @@ function toggleMode() {
     element.classList.toggle("dark-mode");
     loadAllStudentProfiles();
     updateStudentList();
-    updateEmptyMessage();
     saveGrades();
 }
 
