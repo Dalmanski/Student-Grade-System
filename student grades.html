@@ -2,17 +2,20 @@
 <html>
 <head>
     <title>Student Grade System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="icon" type="image/x-icon" href="icon.jpg">
     <script src="script.js"></script>
 </head>
 <body class="dark-mode">
     <header>
         <a href="#" class="logo">Dal.com</a>
         <div class="navbar">
-            <a href="#Home">Home</a>
-            <a href="#About">About</a>
-            <a href="https://soundcloud.com/xxdalmanskixx-gd">Visit Me</a>
-            <a href="#Credits">Credits</a>     
+            <a href="#" onclick="showContent1()">Home</a>
+            <a href="#" onclick="showContent2('about')">About</a>
+            <a href="#" onclick="showContent2('visit-me')">Visit Me</a>
+            <a href="#" onclick="showContent2('credits')">Credits</a>     
         </div>
     </header>
     <nav>
@@ -20,13 +23,13 @@
         <a href="#" data-section="fill-up-student">Fill Up Student</a>
         <a href="#" data-section="student-grades">Student Grades</a>
         <a href="#" data-section="student-profile">Student Profile</a>
-        <button class="toggle-mode-btn" onclick="toggleMode()">🌙</button>
-        <button id="clearLocalStorageBtn" class="btn btn-light">Clear Local Storage</button>
-        <button id="showData" class="btn btn-light">Show Data</button>
+        <button id="toggleModeBtn" class="toggle-mode-btn" onclick="toggleMode()"> ➡ </button>
+        <button id="clearLocalStorageBtn" class="btn">Clear Local Storage</button>
+        <button id="showData" class="btn">Show Data</button>
     </nav>
-    <div class="content">
+    <div class="content" id="content1">
         <section id="home" class="active">
-            <h2 style="font-size: 90px;">Welcome to the <br>
+            <h2 style="font-size: 90px; text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.647);">Welcome to the <br>
                                         Student Grade <br>
                                         System</h2>
             <p style="font-size: 20px; line-height: 2.0;">This system allows you to manage student information <br>
@@ -35,6 +38,7 @@
         <section id="fill-up-student">
             <div class="box">
                 <h2 style="font-size: 30px;">Fill Up Student Information</h2>
+                <br>
                 <form id="studentForm" onsubmit="return false;">
                     <label for="studentName">Student Name:</label>
                     <br>
@@ -58,6 +62,7 @@
         <section id="student-grades">
             <div class="box">
                 <h2 style="font-size: 30px;">Student Grades</h2>
+                <br>
                 <form onsubmit="return false;">
                     <label for="studentNameSelect">Select Student:</label>
                     <select id="studentNameSelect" onchange="handleStudentNameChange()">
@@ -81,7 +86,8 @@
         </section>
         <section id="student-profile">
             <div class="box">
-                <h2 style="font-size: 30px;">Student Grades</h2>
+                <h2 style="font-size: 30px;">Student Profile</h2>
+                <br>
                 <div id="profile-picture-container">
                     <canvas id="resize-canvas" style="display: none;"></canvas>
                 </div>
@@ -98,5 +104,54 @@
             </div>
         </section>
     </div>
+    <div class="content" id="content2">
+        <section id="about">
+            <div class="box">
+                <h2 style="font-size: 50px;">About Student Grade System</h2>
+                <p style="font-size: 25px;">
+                    The Student Grade System is a comprehensive tool designed to streamline the management of student information
+                    and facilitate the calculation of General Weighted Average (GWA) for educational institutions. It provides
+                    features for administrators to input student data, record grades, and generate reports efficiently. With its
+                    user-friendly interface and robust functionality, the Student Grade System aims to enhance the academic
+                    experience for both students and educators.
+                </p>
+            </div>
+        </section>
+        <section id="visit-me">
+            <div class="box">
+                <h2>Visit Me</h2>
+                <br>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/XxDalmanskixX" target="_blank">
+                        <i class="fab fa-facebook social-icon"></i>
+                    </a>
+                    <a href="https://github.com/Dalmanski" target="_blank">
+                        <i class="fab fa-github social-icon"></i>
+                    </a>
+                    <a href="https://www.instagram.com/jayrald_john/" target="_blank">
+                        <i class="fab fa-instagram social-icon"></i>
+                    </a>
+                    <a href="https://soundcloud.com/xxdalmanskixx-gd" target="_blank">
+                        <i class="fab fa-soundcloud social-icon"></i>
+                    </a>
+                    <a href="https://x.com/JayraldJoh24004" target="_blank">
+                        <i class="fab fa-twitter social-icon"></i>
+                    </a>  
+                </div>
+            </div>
+        </section>
+        
+        <section id="credits">
+            <div class="box" style="font-size: 25px;">
+                <h2 style="font-size: 50px;">Credits</h2>
+                <p>Final Output in Software Design</p>
+                <p>Designed and developed by Jayrald John Dalman</p>
+                <p>Bachelor of Science in Computer Engineering studied at Cebu Technological University</p>
+                <p>BSCpE 2 Day</p>
+            </div>
+        </section> 
+    </div>
 </body>
 </html>
+
+

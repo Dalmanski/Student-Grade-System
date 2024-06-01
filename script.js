@@ -1,18 +1,8 @@
-// This is how it load or start
-document.addEventListener("DOMContentLoaded", function() {
+function showSection(sectionId) {
 
-    // Animation of nav
+    // Selection of higlight at the left
     var sections = document.querySelectorAll("section");
     var links = document.querySelectorAll("nav a");
-
-    function showSection(sectionId) {
-        document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
-
-        links.forEach(function(link) {
-            link.classList.remove("active");
-        });
-        document.querySelector(`nav a[data-section="${sectionId}"]`).classList.add("active");
-    }
 
     links.forEach(function(link) {
         link.addEventListener("click", function() {
@@ -20,9 +10,16 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // Show the home section by default
-    showSection("home");
+    document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
 
+    links.forEach(function(link) {
+        link.classList.remove("active");
+    });
+    document.querySelector(`nav a[data-section="${sectionId}"]`).classList.add("active");
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    showContent1();
     loadAllStudentProfiles();
     updateStudentList();
 
@@ -36,7 +33,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    
     // Function to display contents of localStorage
     function displayLocalStorageContents() {
         console.log("Contents of localStorage:");
@@ -54,7 +50,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-
     // Get references to the button and the container
     var showDataButton = document.getElementById("showData");
     var localStorageData = document.getElementById("localStorageData");
@@ -68,8 +63,23 @@ document.addEventListener("DOMContentLoaded", function() {
             localStorageData.style.display = "none";
         }
     });
-
+    
+    // Show the home section by default
+    showSection("home");
 });
+
+function showContent1() {
+    document.getElementById('content1').style.display = 'block';
+    document.getElementById('content2').style.display = 'none';
+}
+
+function showContent2(section) {
+    document.getElementById('content1').style.display = 'none';
+    document.getElementById('content2').style.display = 'block';
+    
+    showSection(section);
+}
+
 
 function addNewStudent() {
     var newStudentNameInput = document.getElementById("newStudentName");
@@ -95,77 +105,15 @@ function addNewStudent() {
     newOption.textContent = newStudentName;
     studentNameSelect.appendChild(newOption);
 
-    // Select the newly added student
-    studentNameSelect.value = newStudentName;
+    studentNameSelect.value = newStudentName; // Select the newly added student
+    newStudentNameInput.value = ""; // Clear the new student name input
 
-    // Clear the new student name input
-    newStudentNameInput.value = "";
-
-    // Clear the grades table
     clearTable();
-
-    // Save the empty grades for the new student
     saveGrades();
-
     loadAllStudentProfiles();
     updateStudentList();
 
     alert("Student " + newStudentName + " is now added");
-}
-
-function loadAllStudentProfiles() {
-    var studentDetailsSection = document.getElementById("student-details");
-
-    // Clear any existing content
-    studentDetailsSection.innerHTML = "";
-
-    // Get all student names from localStorage
-    var studentNames = Object.keys(localStorage).filter(key => !key.endsWith('_profile'));
-
-    studentNames.forEach(function(studentName) {
-        var studentProfile = JSON.parse(localStorage.getItem(studentName + "_profile"));
-
-        if (studentProfile) {
-            // Create a container for each student profile
-            var studentContainer = document.createElement("div");
-            studentContainer.classList.add("student-container");
-
-            // Create and append the profile picture
-            var profilePicture = document.createElement("img");
-            profilePicture.src = studentProfile.picture;
-            profilePicture.alt = "Profile Picture";
-            profilePicture.classList.add("profile-picture");
-            studentContainer.appendChild(profilePicture);
-
-            // Create and append the student name
-            var nameElement = document.createElement("p");
-            nameElement.innerHTML = `<strong>Name:</strong> ${studentProfile.name}`;
-            studentContainer.appendChild(nameElement);
-
-            // Create and append the student age
-            var ageElement = document.createElement("p");
-            ageElement.innerHTML = `<strong>Age:</strong> ${studentProfile.age}`;
-            studentContainer.appendChild(ageElement);
-
-            // Create and append the student address
-            var addressElement = document.createElement("p");
-            addressElement.innerHTML = `<strong>Address:</strong> ${studentProfile.address}`;
-            studentContainer.appendChild(addressElement);
-
-            // Append the student container to the student details section
-            studentDetailsSection.appendChild(studentContainer);
-        }
-        displayLocalStorageContents();
-    });
-
-    // Apply style to arrange students from left to right
-    var boxes = document.querySelectorAll('.box');
-    boxes.forEach(box => {
-        box.style.display = 'flex';
-        box.style.flexWrap = 'wrap';
-        box.style.gap = '20px';
-        box.style.justifyContent = 'flex-start';
-    });
 }
 
 // Change light and dark mode
@@ -173,6 +121,8 @@ function toggleMode() {
     var element = document.body;
     element.classList.toggle("light-mode");
     element.classList.toggle("dark-mode");
+    loadAllStudentProfiles();
+    updateStudentList();
     updateEmptyMessage();
     saveGrades();
 }
@@ -202,6 +152,65 @@ function calculateGWA() {
     updateEmptyMessage();
 }
 
+function loadAllStudentProfiles() {
+    var studentDetailsSection = document.getElementById("student-details");
+    
+    studentDetailsSection.innerHTML = ""; // Clear any existing content
+
+    // Get all student names from localStorage
+    var studentNames = Object.keys(localStorage).filter(key => !key.endsWith('_profile'));
+
+    studentNames.forEach(function(studentName) {
+        var studentProfile = JSON.parse(localStorage.getItem(studentName + "_profile"));
+
+        if (studentProfile) {
+            // Calculate GWA for the student
+            var gradesData = JSON.parse(localStorage.getItem(studentName)) || [];
+            var totalUnits = 0;
+            var gradeXUnits = 0;
+            gradesData.forEach(function(gradeData) {
+                totalUnits += parseFloat(gradeData.unit);
+                gradeXUnits += parseFloat(gradeData.grade) * parseFloat(gradeData.unit);
+            });
+            var GWA = totalUnits ? (gradeXUnits / totalUnits) : 0;
+
+            // Create a container for each student profile
+            var studentContainer = document.createElement("div");
+            studentContainer.classList.add("student-container");
+
+            // Create and append the profile picture
+            var profilePicture = document.createElement("img");
+            profilePicture.src = studentProfile.picture;
+            profilePicture.alt = "Profile Picture";
+            profilePicture.classList.add("profile-picture");
+            studentContainer.appendChild(profilePicture);
+
+            // Create and append the student name
+            var nameElement = document.createElement("p");
+            nameElement.innerHTML = `<strong>Name:</strong> ${studentProfile.name}`;
+            studentContainer.appendChild(nameElement);
+
+            // Create and append the student age
+            var ageElement = document.createElement("p");
+            ageElement.innerHTML = `<strong>Age:</strong> ${studentProfile.age}`;
+            studentContainer.appendChild(ageElement);
+
+            // Create and append the student address
+            var addressElement = document.createElement("p");
+            addressElement.innerHTML = `<strong>Address:</strong> ${studentProfile.address}`;
+            studentContainer.appendChild(addressElement);
+
+            // Create and append the student gwa
+            var gwaElement = document.createElement("p");
+            gwaElement.innerHTML = `<strong>GWA:</strong> ${GWA.toFixed(2)}`;
+            studentContainer.appendChild(gwaElement);
+
+            // Append the student container to the student-details section
+            studentDetailsSection.appendChild(studentContainer);
+        }
+    });
+}
+
 function addSubjectRowAtIndex(index) {
     var table = document.getElementById("gradesTable");
     var row = table.insertRow(index);
@@ -218,7 +227,7 @@ function addSubjectRow() {
 function insertRowContent(row, index) {
     var cell0 = row.insertCell(0);
     var removeButton = document.createElement("button");
-    removeButton.innerHTML = "&#128465;"
+    removeButton.innerHTML = "&#128465;" // Icon of trash
     removeButton.onclick = function() {
         var subjectName = row.cells[1].getElementsByTagName('input')[0].value;
         if (confirm("Are you sure you want to delete " + subjectName + "?")) {
@@ -227,6 +236,7 @@ function insertRowContent(row, index) {
             calculateGWA();
             saveGrades();
             loadGrades();
+            loadAllStudentProfiles();
         }
     };
     cell0.appendChild(removeButton);
@@ -267,6 +277,7 @@ function handleEnterKey(event) {
         }
     }
     calculateGWA();
+    loadAllStudentProfiles();
 }
 
 function toggleMode() {
@@ -328,7 +339,7 @@ function loadGrades() {
 
     gradesData = JSON.parse(gradesData);
     var table = document.getElementById("gradesTable");
-    // Remove existing rows
+
     clearTable();
 
     gradesData.forEach((gradeData, index) => {
@@ -336,7 +347,7 @@ function loadGrades() {
 
         var cell0 = row.insertCell(0);
         var removeButton = document.createElement("button");
-        removeButton.innerHTML = "&#128465;";
+        removeButton.innerHTML = "&#128465;"; //Icon of trash
         removeButton.onclick = function() {
             var subjectName = row.cells[1].getElementsByTagName('input')[0].value;
             if (confirm("Are you sure you want to delete " + subjectName + "?")) {
@@ -360,7 +371,7 @@ function loadGrades() {
         element1.name = "subject" + (index + 1);
         element1.value = gradeData.subject;
         element1.oninput = calculateGWA;
-        element1.addEventListener('keydown', handleEnterKey); // Add event listener for Enter key
+        element1.addEventListener('keydown', handleEnterKey);
         cell1.appendChild(element1);
 
         var cell2 = row.insertCell(2);
@@ -370,7 +381,7 @@ function loadGrades() {
         element2.name = "grade" + (index + 1);
         element2.value = gradeData.grade;
         element2.oninput = calculateGWA;
-        element2.addEventListener('keydown', handleEnterKey); // Add event listener for Enter key
+        element2.addEventListener('keydown', handleEnterKey);
         cell2.appendChild(element2);
 
         var cell3 = row.insertCell(3);
@@ -380,10 +391,11 @@ function loadGrades() {
         element3.name = "unit" + (index + 1);
         element3.value = gradeData.unit;
         element3.oninput = calculateGWA;
-        element3.addEventListener('keydown', handleEnterKey); // Add event listener for Enter key
+        element3.addEventListener('keydown', handleEnterKey);
         cell3.appendChild(element3);
     });
     calculateGWA();
+    loadAllStudentProfiles();
     updateEmptyMessage();
 }
 
@@ -396,8 +408,7 @@ function updateStudentList() {
     var studentNameSelect = document.getElementById("studentNameSelect");
     var studentNames = Object.keys(localStorage);
 
-    // Clear existing options
-    studentNameSelect.innerHTML = "";
+    studentNameSelect.innerHTML = ""; // Clear existing options
 
     // Filter out keys that end with '_profile'
     var filteredStudentNames = studentNames.filter(function(name) {
@@ -503,26 +514,3 @@ window.onload = function() {
     updateEmptyMessage();
     loadGrades();
 };
-
-
-document.getElementById("clearLocalStorageBtn").addEventListener("click", function() {
-    for (var i = 0; i < localStorage.length; i++) {
-        var key = localStorage.key(i);
-        // Overwrite each key with an empty string or a space
-        localStorage.setItem(key, ' ');
-    }
-
-    // Optionally, you can also update the UI or perform other actions after clearing localStorage
-});
-
-function displayLocalStorageContents() {
-    var localStorageContentDiv = document.getElementById("localStorageContent");
-    localStorageContentDiv.innerHTML = "<h3>Contents of localStorage:</h3>";
-
-    for (var i = 0; i < localStorage.length; i++) {
-        var key = localStorage.key(i);
-        var value = localStorage.getItem(key);
-        var content = "<p><strong>Key:</strong> " + key + ", <strong>Value:</strong> " + value + "</p>";
-        localStorageContentDiv.innerHTML += content;
-    }
-}
